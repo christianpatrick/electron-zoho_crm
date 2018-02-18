@@ -29,7 +29,7 @@ function createWindow () {
   $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}';
 
   // and load the index.html of the app.
-  mainWindow.loadURL('https://crm.zoho.com/')
+  mainWindow.loadURL('https://accounts.zoho.com/signin?servicename=ZohoCRM')
 
   mainWindow.webContents.on('did-finish-load', function() {
     mainWindow.webContents.insertCSS($cssInclude)
@@ -59,8 +59,10 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', function () {
+  createWindow()
 
+})
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
