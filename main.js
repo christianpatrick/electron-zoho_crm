@@ -141,7 +141,14 @@ function createMenu() {
           label: 'Accounts',
           accelerator: 'Shift+CmdOrCtrl+A',
           click: () => {
-            mainWindow.loadURL('https://crm.zoho.com/crm/ShowTab.do?module=Accounts')
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Accounts").click()')
+          },
+        },
+        {
+          label: 'Contacts',
+          accelerator: 'Shift+CmdOrCtrl+C',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Contacts").click()')
           },
         },
       ],
