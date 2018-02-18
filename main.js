@@ -40,7 +40,7 @@ function createWindow () {
     mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
   })
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -138,6 +138,51 @@ function createMenu() {
           type: 'separator',
         },
         {
+          label: 'Home',
+          accelerator: 'Shift+CmdOrCtrl+Space',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Home").click()')
+          },
+        },
+        {
+          label: 'SalesInbox',
+          accelerator: 'Shift+CmdOrCtrl+I',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_SalesInbox").click()')
+          },
+        },
+        {
+          label: 'Feeds',
+          accelerator: 'Shift+CmdOrCtrl+F',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Feeds").click()')
+          },
+        },
+        {
+          label: 'Activities',
+          accelerator: 'Shift+CmdOrCtrl+E',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Activities").click()')
+          },
+        },
+        {
+          label: 'Visits',
+          accelerator: 'Shift+CmdOrCtrl+V',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Visits").click()')
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Leads',
+          accelerator: 'Shift+CmdOrCtrl+L',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Leads").click()')
+          },
+        },
+        {
           label: 'Accounts',
           accelerator: 'Shift+CmdOrCtrl+A',
           click: () => {
@@ -149,6 +194,13 @@ function createMenu() {
           accelerator: 'Shift+CmdOrCtrl+C',
           click: () => {
             mainWindow.webContents.executeJavaScript('document.getElementById("tab_Contacts").click()')
+          },
+        },
+        {
+          label: 'Deals',
+          accelerator: 'Shift+CmdOrCtrl+D',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Potentials").click()')
           },
         },
       ],
