@@ -23,6 +23,7 @@ function createWindow () {
   })
 
   $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}';
+  $cssSearch = '.newsearchimg,#searchStr{padding-left:75px;}#searchdetailsform{position:fixed;width:100%;}#gsearchDiv{padding-top:70px;}';
 
   // and load the index.html of the app.
   mainWindow.loadURL('https://accounts.zoho.com/signin?servicename=ZohoCRM')
@@ -35,12 +36,14 @@ function createWindow () {
     mainWindow.webContents.insertCSS($cssInclude)
   })
 
-
   mainWindow.webContents.on('dom-ready', function(e) {
     mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
+    
+    // search page override
+    mainWindow.webContents.insertCSS($cssSearch)
   })
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
