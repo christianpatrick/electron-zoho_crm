@@ -3,16 +3,6 @@ const {app, Menu, BrowserWindow, shell, clipboard} = require('electron')
 const path = require('path')
 const url = require('url')
 
-const onGoBack = () => {
-  mainWindow.webContents.goBack()
-}
-
-const onGoForward = () => {
-  mainWindow.webContents.goForward()
-}
-
-const getCurrentUrl = () => mainWindow.webContents.getURL()
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -111,16 +101,16 @@ function createMenu() {
       submenu: [
         {
           label: 'Back',
-          accelerator: 'CmdOrCtrl+[',
+          accelerator: 'Shift+CmdOrCtrl+Left',
           click: () => {
-            goBack();
+            mainWindow.webContents.goBack()
           },
         },
         {
           label: 'Forward',
-          accelerator: 'CmdOrCtrl+]',
+          accelerator: 'Shift+CmdOrCtrl+Right',
           click: () => {
-            goForward();
+            mainWindow.webContents.goForward()
           },
         },
         {
