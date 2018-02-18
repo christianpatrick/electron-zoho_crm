@@ -26,15 +26,17 @@ function createWindow () {
     },
   })
 
+  $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}';
+
   // and load the index.html of the app.
   mainWindow.loadURL('https://crm.zoho.com/')
 
   mainWindow.webContents.on('did-finish-load', function() {
-    mainWindow.webContents.insertCSS('#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}')
+    mainWindow.webContents.insertCSS($cssInclude)
   })
 
   mainWindow.webContents.on('did-navigate', function() {
-    mainWindow.webContents.insertCSS('#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}')
+    mainWindow.webContents.insertCSS($cssInclude)
   })
 
 
