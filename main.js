@@ -40,7 +40,7 @@ function createWindow () {
     mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
   })
   // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -125,6 +125,28 @@ function createMenu() {
       ],
     },
     {
+      label: 'Go',
+      submenu: [
+        {
+          label: 'Search',
+          accelerator: 'Shift+CmdOrCtrl+S',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("topbandSearchIcon").click()')
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Accounts',
+          accelerator: 'Shift+CmdOrCtrl+A',
+          click: () => {
+            mainWindow.loadURL('https://crm.zoho.com/crm/ShowTab.do?module=Accounts')
+          },
+        },
+      ],
+    },
+    {
       label: 'Window',
       role: 'window',
       submenu: [
@@ -160,8 +182,8 @@ function createMenu() {
     },
   ];
 
-  const { submenu } = template[1];
-  submenu.splice(submenu.length - 1, 1);
+  // const { submenu } = template[1];
+  // submenu.splice(submenu.length - 1, 1);
 
   if (process.platform === 'darwin') {
     template.unshift({
@@ -239,6 +261,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
