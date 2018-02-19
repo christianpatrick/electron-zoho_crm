@@ -10,6 +10,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    show: false,
     titleBarStyle: 'hiddenInset',
     width: 1000,
     minWidth: 600,
@@ -22,10 +23,12 @@ function createWindow () {
     },
   })
 
-  $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}';
+  $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}#tabGroupMenuDiv{margin-left:65px;}';
+  $cssSearch = '.newsearchimg,#searchStr{padding-left:75px;}#searchdetailsform{position:fixed;width:100%;}#gsearchDiv{padding-top:70px;}';
 
   // and load the index.html of the app.
-  mainWindow.loadURL('https://accounts.zoho.com/signin?servicename=ZohoCRM')
+  // mainWindow.loadURL('https://accounts.zoho.com/signin?servicename=ZohoCRM')
+  mainWindow.loadURL('https://crm.zoho.com/')
 
   mainWindow.webContents.on('did-finish-load', function() {
     mainWindow.webContents.insertCSS($cssInclude)
@@ -35,12 +38,14 @@ function createWindow () {
     mainWindow.webContents.insertCSS($cssInclude)
   })
 
-
   mainWindow.webContents.on('dom-ready', function(e) {
-    mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
+    mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";').then(() => {setTimeout(function(){splash.destroy();mainWindow.show();}, 2000)})
+    // search page override
+    mainWindow.webContents.insertCSS($cssSearch)
   })
+
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -138,6 +143,51 @@ function createMenu() {
           type: 'separator',
         },
         {
+          label: 'Home',
+          accelerator: 'Shift+CmdOrCtrl+Space',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Home").click()')
+          },
+        },
+        {
+          label: 'SalesInbox',
+          accelerator: 'Shift+CmdOrCtrl+I',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_SalesInbox").click()')
+          },
+        },
+        {
+          label: 'Feeds',
+          accelerator: 'Shift+CmdOrCtrl+F',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Feeds").click()')
+          },
+        },
+        {
+          label: 'Activities',
+          accelerator: 'Shift+CmdOrCtrl+E',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Activities").click()')
+          },
+        },
+        {
+          label: 'Visits',
+          accelerator: 'Shift+CmdOrCtrl+V',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Visits").click()')
+          },
+        },
+        {
+          type: 'separator',
+        },
+        {
+          label: 'Leads',
+          accelerator: 'Shift+CmdOrCtrl+L',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Leads").click()')
+          },
+        },
+        {
           label: 'Accounts',
           accelerator: 'Shift+CmdOrCtrl+A',
           click: () => {
@@ -149,6 +199,13 @@ function createMenu() {
           accelerator: 'Shift+CmdOrCtrl+C',
           click: () => {
             mainWindow.webContents.executeJavaScript('document.getElementById("tab_Contacts").click()')
+          },
+        },
+        {
+          label: 'Deals',
+          accelerator: 'Shift+CmdOrCtrl+D',
+          click: () => {
+            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Potentials").click()')
           },
         },
       ],
@@ -245,13 +302,30 @@ function createMenu() {
   Menu.setApplicationMenu(menu);
 }
 
+function splashWindow () {
+    splash = new BrowserWindow({
+    width: 350,
+    minWidth: 350,
+    height: 350,
+    minHeight: 350,
+    frame: false,
+    alwaysOnTop: true,
+    movable: false,
+    closable: false,
+  })
+
+  splash.loadURL(`file://${__dirname}/splash.html`)
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function () {
-  createWindow()
+  splashWindow()
   createMenu()
+  createWindow()
 })
+
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
