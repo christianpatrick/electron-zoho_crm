@@ -39,7 +39,8 @@ function createWindow () {
   })
 
   mainWindow.webContents.on('dom-ready', function(e) {
-    mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";').then(() => {setTimeout(function(){splash.destroy();mainWindow.show();}, 2000)})
+    mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
+    setTimeout(function(){splash.destroy();mainWindow.show();}, 2000)
     // search page override
     mainWindow.webContents.insertCSS($cssSearch)
   })
