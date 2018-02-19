@@ -304,12 +304,14 @@ function createMenu() {
 
 function splashWindow () {
     splash = new BrowserWindow({
-    width: 400,
-    minWidth: 400,
-    height: 400,
-    minHeight: 400,
+    width: 350,
+    minWidth: 350,
+    height: 350,
+    minHeight: 350,
     frame: false,
-    alwaysOnTop: true
+    alwaysOnTop: true,
+    movable: false,
+    closable: false,
   })
 
   splash.loadURL(`file://${__dirname}/splash.html`)
@@ -320,8 +322,8 @@ function splashWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function () {
   splashWindow()
-  createWindow()
   createMenu()
+  createWindow()
 })
 
 // Quit when all windows are closed.
