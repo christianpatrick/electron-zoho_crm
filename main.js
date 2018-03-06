@@ -26,8 +26,6 @@ function createWindow () {
   $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}#tabGroupMenuDiv{margin-left:65px;}';
   $cssSearch = '.newsearchimg,#searchStr{padding-left:75px;}#searchdetailsform{position:fixed;width:100%;}#gsearchDiv{padding-top:70px;}';
 
-  // and load the index.html of the app.
-  // mainWindow.loadURL('https://accounts.zoho.com/signin?servicename=ZohoCRM')
   mainWindow.loadURL('https://crm.zoho.com/')
 
   mainWindow.webContents.on('did-finish-load', function() {
@@ -45,15 +43,14 @@ function createWindow () {
     mainWindow.webContents.insertCSS($cssSearch)
   })
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
-
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
+  })
+
+  mainWindow.on('close', function(e){
+    e.preventDefault()
+    mainWindow.hide()
   })
 }
 
@@ -247,9 +244,6 @@ function createMenu() {
     },
   ];
 
-  // const { submenu } = template[1];
-  // submenu.splice(submenu.length - 1, 1);
-
   if (process.platform === 'darwin') {
     template.unshift({
       label: 'Electron',
@@ -339,7 +333,6 @@ app.on('window-all-closed', function () {
 app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
-  if (mainWindow === null) {
-    createWindow()
-  }
+    mainWindow.webContents.executeJavaScript('document.getElementById("tab_Home").click()')
+    setTimeout(function(){mainWindow.show();}, 500)
 })
