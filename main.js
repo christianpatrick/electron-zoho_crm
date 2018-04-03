@@ -43,6 +43,11 @@ function createWindow () {
     mainWindow.webContents.insertCSS($cssSearch)
   })
 
+  mainWindow.webContents.on('new-window', function(event, url){
+    event.preventDefault()
+    require('electron').shell.openExternal(url)
+  });
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     mainWindow = null
@@ -299,14 +304,15 @@ function createMenu() {
 
 function splashWindow () {
     splash = new BrowserWindow({
-    width: 350,
-    minWidth: 350,
-    height: 350,
-    minHeight: 350,
+    width: 300,
+    minWidth: 300,
+    height: 300,
+    minHeight: 300,
     frame: false,
     alwaysOnTop: true,
     movable: false,
     closable: false,
+    transparent: true,
   })
 
   splash.loadURL(`file://${__dirname}/splash.html`)
