@@ -43,6 +43,11 @@ function createWindow () {
     mainWindow.webContents.insertCSS($cssSearch)
   })
 
+  mainWindow.webContents.on('new-window', function(event, url){
+    event.preventDefault()
+    require('electron').shell.openExternal(url)
+  });
+
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     mainWindow = null
