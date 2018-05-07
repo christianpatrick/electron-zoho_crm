@@ -8,11 +8,13 @@
   "author": "christianpatrick",
   "license": "Unlicense",
   "devDependencies": {
-    "electron": "~1.7.8"
+    "electron": "^2.0.0"
   },
   "scripts": {
     "start": "electron .",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=zoho_crm-logo.icns --prune=true --out=builds"
   },
-  "dependencies": {}
+  "dependencies": {
+    "electron-require": "^0.3.0"
+  }
 }
