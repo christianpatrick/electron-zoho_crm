@@ -20,10 +20,11 @@ function createWindow () {
       javascript: true,
       plugins: true,
       nodeIntegration: false,
+      affinity: 'myAffinity',
     },
   })
 
-  $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}#tabGroupMenuDiv{margin-left:65px;}';
+  $cssInclude = '#showMenu{margin-left:70px;}#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}#tabGroupMenuDiv{margin-left:65px;}';
   $cssSearch = '.newsearchimg,#searchStr{padding-left:75px;}#searchdetailsform{position:fixed;width:100%;}#gsearchDiv{padding-top:70px;}';
 
   mainWindow.loadURL('https://crm.zoho.com/')
@@ -37,7 +38,6 @@ function createWindow () {
   })
 
   mainWindow.webContents.on('dom-ready', function(e) {
-    mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
     setTimeout(function(){splash.destroy();mainWindow.show();}, 2000)
     // search page override
     mainWindow.webContents.insertCSS($cssSearch)
