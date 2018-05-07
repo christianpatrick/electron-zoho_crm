@@ -33,6 +33,7 @@ function createWindow () {
 
 	mainWindow.webContents.on('did-finish-load', function() {
 		mainWindow.webContents.insertCSS($cssInclude)
+		mainWindow.show()
 	})
 
 	mainWindow.webContents.on('did-navigate', function() {
@@ -40,8 +41,6 @@ function createWindow () {
 	})
 
 	mainWindow.webContents.on('dom-ready', function(e) {
-		mainWindow.show()
-
 		// search page override
 		mainWindow.webContents.insertCSS($cssSearch)
 	})
