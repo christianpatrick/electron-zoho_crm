@@ -1,0 +1,29 @@
+/* tab group dropdown next to traffic lights */
+#showMenu {
+	margin-left: 65px;
+}
+
+/* top menu bar */
+#tabLayer {
+	position: fixed;
+	margin-top: -5px;
+	height: 45px;
+	-webkit-app-region: drag;
+}
+
+
+.bodycontainer {
+	padding-top: 40px;
+}
+
+
+.newMenuTable {
+	display: block;
+	max-height: 45px;
+}
+
+
+#qIconDiv {
+	position: absolute;
+	right: 0;
+}

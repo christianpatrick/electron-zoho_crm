@@ -2,347 +2,343 @@ const {app, Menu, BrowserWindow, shell, clipboard} = require('electron')
 
 const path = require('path')
 const url = require('url')
+var fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
-  // Create the browser window.
-  mainWindow = new BrowserWindow({
-    show: false,
-    titleBarStyle: 'hiddenInset',
-    width: 1000,
-    minWidth: 600,
-    height: 600,
-    minHeight: 400,
-    webPreferences: {
-      javascript: true,
-      plugins: true,
-      nodeIntegration: false,
-    },
-  })
 
-  $cssInclude = '#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}#tabGroupMenuDiv{margin-left:65px;}';
-  $cssSearch = '.newsearchimg,#searchStr{padding-left:75px;}#searchdetailsform{position:fixed;width:100%;}#gsearchDiv{padding-top:70px;}';
+	// Create the browser window.
+	mainWindow = new BrowserWindow({
+		show: false,
+		titleBarStyle: 'hiddenInset',
+		width: 1000,
+		minWidth: 600,
+		height: 600,
+		minHeight: 400,
+		webPreferences: {
+			javascript: true,
+			plugins: true,
+			nodeIntegration: false,
+			affinity: 'zoho_crm-main',
+		},
+	})
 
-  mainWindow.loadURL('https://crm.zoho.com/')
+	mainWindow.loadURL('https://crm.zoho.com/')
 
-  mainWindow.webContents.on('did-finish-load', function() {
-    mainWindow.webContents.insertCSS($cssInclude)
-  })
+	mainWindow.webContents.on('did-finish-load', function() {
 
-  mainWindow.webContents.on('did-navigate', function() {
-    mainWindow.webContents.insertCSS($cssInclude)
-  })
+		//initial load of window
+		fs.readFile(__dirname+ '/src/css/main.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
 
-  mainWindow.webContents.on('dom-ready', function(e) {
-    mainWindow.webContents.executeJavaScript('document.getElementById("tabgrouparrow").style.marginLeft = "75px";')
-    setTimeout(function(){splash.destroy();mainWindow.show();}, 2000)
-    // search page override
-    mainWindow.webContents.insertCSS($cssSearch)
-  })
+		mainWindow.show()
 
-  mainWindow.webContents.on('new-window', function(event, url){
-    event.preventDefault()
-    require('electron').shell.openExternal(url)
-  });
+	})
 
-  // Emitted when the window is closed.
-  mainWindow.on('closed', function () {
-    mainWindow = null
-  })
+	mainWindow.webContents.on('did-navigate', function() {
 
-  mainWindow.on('close', function(e){
-    e.preventDefault()
-    mainWindow.hide()
-  })
+		fs.readFile(__dirname+ '/src/css/main.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
+
+		fs.readFile(__dirname+ '/src/css/search.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
+
+	})
+
+	mainWindow.webContents.on('new-window', function(event, url){
+		event.preventDefault()
+		require('electron').shell.openExternal(url)
+	});
+
+	// Emitted when the window is closed.
+	mainWindow.on('closed', function () {
+		mainWindow = null
+	})
+
+	mainWindow.on('close', function(e){
+		e.preventDefault()
+		mainWindow.hide()
+	})
 }
 
 function createMenu() {
   // Creates the App Menu
   if (Menu.getApplicationMenu()) {
-    return;
+	return;
   }
 
   const template = [
-    {
-      label: 'Edit',
-      submenu: [
-        {
-          label: 'Undo',
-          accelerator: 'CmdOrCtrl+Z',
-          role: 'undo',
-        },
-        {
-          label: 'Redo',
-          accelerator: 'Shift+CmdOrCtrl+Z',
-          role: 'redo',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Cut',
-          accelerator: 'CmdOrCtrl+X',
-          role: 'cut',
-        },
-        {
-          label: 'Copy',
-          accelerator: 'CmdOrCtrl+C',
-          role: 'copy',
-        },
-        {
-          label: 'Paste',
-          accelerator: 'CmdOrCtrl+V',
-          role: 'paste',
-        },
-        {
-          label: 'Select All',
-          accelerator: 'CmdOrCtrl+A',
-          role: 'selectall',
-        },
-      ],
-    },
-    {
-      label: 'View',
-      submenu: [
-        {
-          label: 'Back',
-          accelerator: 'Shift+CmdOrCtrl+Left',
-          click: () => {
-            mainWindow.webContents.goBack()
-          },
-        },
-        {
-          label: 'Forward',
-          accelerator: 'Shift+CmdOrCtrl+Right',
-          click: () => {
-            mainWindow.webContents.goForward()
-          },
-        },
-        {
-          label: 'Reload',
-          accelerator: 'Shift+CmdOrCtrl+R',
-          click: (item, focusedWindow) => {
-            if (focusedWindow) {
-              focusedWindow.reload();
-            }
-          },
-        },
-      ],
-    },
-    {
-      label: 'Go',
-      submenu: [
-        {
-          label: 'Search',
-          accelerator: 'Shift+CmdOrCtrl+S',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("topbandSearchIcon").click()')
-          },
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Home',
-          accelerator: 'Shift+CmdOrCtrl+Space',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Home").click()')
-          },
-        },
-        {
-          label: 'SalesInbox',
-          accelerator: 'Shift+CmdOrCtrl+I',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_SalesInbox").click()')
-          },
-        },
-        {
-          label: 'Feeds',
-          accelerator: 'Shift+CmdOrCtrl+F',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Feeds").click()')
-          },
-        },
-        {
-          label: 'Activities',
-          accelerator: 'Shift+CmdOrCtrl+E',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Activities").click()')
-          },
-        },
-        {
-          label: 'Visits',
-          accelerator: 'Shift+CmdOrCtrl+V',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Visits").click()')
-          },
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Leads',
-          accelerator: 'Shift+CmdOrCtrl+L',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Leads").click()')
-          },
-        },
-        {
-          label: 'Accounts',
-          accelerator: 'Shift+CmdOrCtrl+A',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Accounts").click()')
-          },
-        },
-        {
-          label: 'Contacts',
-          accelerator: 'Shift+CmdOrCtrl+C',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Contacts").click()')
-          },
-        },
-        {
-          label: 'Deals',
-          accelerator: 'Shift+CmdOrCtrl+D',
-          click: () => {
-            mainWindow.webContents.executeJavaScript('document.getElementById("tab_Potentials").click()')
-          },
-        },
-      ],
-    },
-    {
-      label: 'Window',
-      role: 'window',
-      submenu: [
-        {
-          label: 'Minimize',
-          accelerator: 'CmdOrCtrl+M',
-          role: 'minimize',
-        },
-        {
-          label: 'Close',
-          accelerator: 'CmdOrCtrl+W',
-          role: 'close',
-        },
-      ],
-    },
-    {
-      label: 'Help',
-      role: 'help',
-      submenu: [
-        {
-          label: `Built by christianpatrick`,
-          click: () => {
-            shell.openExternal('https://github.com/christianpatrick/electron-zoho_crm');
-          },
-        },
-        {
-          label: 'Have an Issue?',
-          click: () => {
-            shell.openExternal('https://github.com/christianpatrick/electron-zoho_crm/issues');
-          },
-        },
-      ],
-    },
+	{
+	  label: 'Edit',
+	  submenu: [
+		{
+		  label: 'Undo',
+		  accelerator: 'CmdOrCtrl+Z',
+		  role: 'undo',
+		},
+		{
+		  label: 'Redo',
+		  accelerator: 'Shift+CmdOrCtrl+Z',
+		  role: 'redo',
+		},
+		{
+		  type: 'separator',
+		},
+		{
+		  label: 'Cut',
+		  accelerator: 'CmdOrCtrl+X',
+		  role: 'cut',
+		},
+		{
+		  label: 'Copy',
+		  accelerator: 'CmdOrCtrl+C',
+		  role: 'copy',
+		},
+		{
+		  label: 'Paste',
+		  accelerator: 'CmdOrCtrl+V',
+		  role: 'paste',
+		},
+		{
+		  label: 'Select All',
+		  accelerator: 'CmdOrCtrl+A',
+		  role: 'selectall',
+		},
+	  ],
+	},
+	{
+	  label: 'View',
+	  submenu: [
+		{
+		  label: 'Back',
+		  accelerator: 'Shift+CmdOrCtrl+Left',
+		  click: () => {
+			mainWindow.webContents.goBack()
+		  },
+		},
+		{
+		  label: 'Forward',
+		  accelerator: 'Shift+CmdOrCtrl+Right',
+		  click: () => {
+			mainWindow.webContents.goForward()
+		  },
+		},
+		{
+		  label: 'Reload',
+		  accelerator: 'Shift+CmdOrCtrl+R',
+		  click: (item, focusedWindow) => {
+			if (focusedWindow) {
+			  focusedWindow.reload();
+			}
+		  },
+		},
+	  ],
+	},
+	{
+	  label: 'Go',
+	  submenu: [
+		{
+		  label: 'Search',
+		  accelerator: 'Shift+CmdOrCtrl+S',
+		  click: () => {
+			mainWindow.webContents.executeJavaScript('document.getElementById("topbandSearchIcon").click()')
+		  },
+		},
+		{
+		  type: 'separator',
+		},
+		{
+		  label: 'Home',
+		  accelerator: 'Shift+CmdOrCtrl+Space',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/')
+		  },
+		},
+		{
+		  label: 'SalesInbox',
+		  accelerator: 'Shift+CmdOrCtrl+I',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/salesinbox/')
+		  },
+		},
+		{
+		  label: 'Feeds',
+		  accelerator: 'Shift+CmdOrCtrl+F',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Feeds/')
+		  },
+		},
+		{
+		  label: 'Activities',
+		  accelerator: 'Shift+CmdOrCtrl+E',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Activities/')
+		  },
+		},
+		{
+		  label: 'Visits',
+		  accelerator: 'Shift+CmdOrCtrl+V',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Visits/')
+		  },
+		},
+		{
+		  type: 'separator',
+		},
+		{
+		  label: 'Leads',
+		  accelerator: 'Shift+CmdOrCtrl+L',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Leads/')
+		  },
+		},
+		{
+		  label: 'Accounts',
+		  accelerator: 'Shift+CmdOrCtrl+A',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Accounts/')
+		  },
+		},
+		{
+		  label: 'Contacts',
+		  accelerator: 'Shift+CmdOrCtrl+C',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Contacts/')
+		  },
+		},
+		{
+		  label: 'Deals',
+		  accelerator: 'Shift+CmdOrCtrl+D',
+		  click: () => {
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Potentials/')
+		  },
+		},
+	  ],
+	},
+	{
+	  label: 'Window',
+	  role: 'window',
+	  submenu: [
+		{
+		  label: 'Minimize',
+		  accelerator: 'CmdOrCtrl+M',
+		  role: 'minimize',
+		},
+		{
+		  label: 'Close',
+		  accelerator: 'CmdOrCtrl+W',
+		  role: 'close',
+		},
+	  ],
+	},
+	{
+	  label: 'Help',
+	  role: 'help',
+	  submenu: [
+		{
+		  label: `Built by christianpatrick`,
+		  click: () => {
+			shell.openExternal('https://github.com/christianpatrick/electron-zoho_crm');
+		  },
+		},
+		{
+		  label: 'Have an Issue?',
+		  click: () => {
+			shell.openExternal('https://github.com/christianpatrick/electron-zoho_crm/issues');
+		  },
+		},
+	  ],
+	},
   ];
 
   if (process.platform === 'darwin') {
-    template.unshift({
-      label: 'Electron',
-      submenu: [
-        {
-          label: 'Services',
-          role: 'services',
-          submenu: [],
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Hide App',
-          accelerator: 'Command+H',
-          role: 'hide',
-        },
-        {
-          label: 'Hide Others',
-          accelerator: 'Command+Shift+H',
-          role: 'hideothers',
-        },
-        {
-          label: 'Show All',
-          role: 'unhide',
-        },
-        {
-          type: 'separator',
-        },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: () => {
-            app.quit()
-          },
-        },
-      ],
-    });
-    template[3].submenu.push(
-      {
-        type: 'separator',
-      },
-      {
-        label: 'Bring All to Front',
-        role: 'front',
-      },
-    );
+	template.unshift({
+	  label: 'Electron',
+	  submenu: [
+		{
+		  label: 'Services',
+		  role: 'services',
+		  submenu: [],
+		},
+		{
+		  type: 'separator',
+		},
+		{
+		  label: 'Hide App',
+		  accelerator: 'Command+H',
+		  role: 'hide',
+		},
+		{
+		  label: 'Hide Others',
+		  accelerator: 'Command+Shift+H',
+		  role: 'hideothers',
+		},
+		{
+		  label: 'Show All',
+		  role: 'unhide',
+		},
+		{
+		  type: 'separator',
+		},
+		{
+		  label: 'Quit',
+		  accelerator: 'Command+Q',
+		  click: () => {
+			app.quit()
+		  },
+		},
+	  ],
+	});
+	template[3].submenu.push(
+	  {
+		type: 'separator',
+	  },
+	  {
+		label: 'Bring All to Front',
+		role: 'front',
+	  },
+	);
   }
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
 
-function splashWindow () {
-    splash = new BrowserWindow({
-    width: 300,
-    minWidth: 300,
-    height: 300,
-    minHeight: 300,
-    frame: false,
-    alwaysOnTop: true,
-    movable: false,
-    closable: false,
-    transparent: true,
-  })
-
-  splash.loadURL(`file://${__dirname}/splash.html`)
-}
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', function () {
-  splashWindow()
-  createMenu()
-  createWindow()
+	createMenu()
+	createWindow()
 })
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
-  // On OS X it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
+	// On OS X it is common for applications and their menu bar
+	// to stay active until the user quits explicitly with Cmd + Q
+	if (process.platform !== 'darwin') {
+		app.quit()
+	}
 })
 
 app.on('before-quit', function () {
-  mainWindow.destroy()
+	mainWindow.destroy()
 })
 
 app.on('activate', function () {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
-    mainWindow.webContents.executeJavaScript('document.getElementById("tab_Home").click()')
-    setTimeout(function(){mainWindow.show();}, 500)
+	// On OS X it's common to re-create a window in the app when the
+	// dock icon is clicked and there are no other windows open.
+	mainWindow.show()
 })
