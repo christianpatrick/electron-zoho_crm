@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=zoho_crm-logo.icns --asar=true --prune=true --out=builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=zoho_crm-logo.icns --asar --prune=true --out=builds"
   },
   "dependencies": {
     "electron-require": "^0.3.0"
