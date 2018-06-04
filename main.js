@@ -163,35 +163,35 @@ function createMenu() {
 		  label: 'Home',
 		  accelerator: 'Shift+CmdOrCtrl+Space',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Home").click()')
+			mainWindow.loadURL('https://crm.zoho.com/')
 		  },
 		},
 		{
 		  label: 'SalesInbox',
 		  accelerator: 'Shift+CmdOrCtrl+I',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_SalesInbox").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/salesinbox/')
 		  },
 		},
 		{
 		  label: 'Feeds',
 		  accelerator: 'Shift+CmdOrCtrl+F',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Feeds").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Feeds/')
 		  },
 		},
 		{
 		  label: 'Activities',
 		  accelerator: 'Shift+CmdOrCtrl+E',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Activities").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Activities/')
 		  },
 		},
 		{
 		  label: 'Visits',
 		  accelerator: 'Shift+CmdOrCtrl+V',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Visits").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Visits/')
 		  },
 		},
 		{
@@ -201,28 +201,28 @@ function createMenu() {
 		  label: 'Leads',
 		  accelerator: 'Shift+CmdOrCtrl+L',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Leads").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Leads/')
 		  },
 		},
 		{
 		  label: 'Accounts',
 		  accelerator: 'Shift+CmdOrCtrl+A',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Accounts").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Accounts/')
 		  },
 		},
 		{
 		  label: 'Contacts',
 		  accelerator: 'Shift+CmdOrCtrl+C',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Contacts").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Contacts/')
 		  },
 		},
 		{
 		  label: 'Deals',
 		  accelerator: 'Shift+CmdOrCtrl+D',
 		  click: () => {
-			mainWindow.webContents.executeJavaScript('document.getElementById("tab_Potentials").click()')
+			mainWindow.loadURL('https://crm.zoho.com/crm/tab/Potentials/')
 		  },
 		},
 	  ],
