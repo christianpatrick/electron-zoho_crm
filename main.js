@@ -2,6 +2,7 @@ const {app, Menu, BrowserWindow, shell, clipboard} = require('electron')
 
 const path = require('path')
 const url = require('url')
+var fs = require('fs')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -21,28 +22,39 @@ function createWindow () {
 			javascript: true,
 			plugins: true,
 			nodeIntegration: false,
-			affinity: 'myAffinity',
+			affinity: 'zoho_crm-main',
 		},
 	})
-
-	$cssInclude = '#showMenu{margin-left:70px;}#tabLayer{position:fixed;margin-top:-5px;height:45px;-webkit-app-region:drag;}.bodycontainer{padding-top:40px;}.newMenuTable{display:block;max-height:45px;}#qIconDiv{position:absolute;right:0;}#tabGroupMenuDiv{margin-left:65px;}';
-
-	$cssSearch = '.newsearchimg,#searchStr{padding-left:75px;}#searchdetailsform{position:fixed;width:100%;}#gsearchDiv{padding-top:70px;}';
 
 	mainWindow.loadURL('https://crm.zoho.com/')
 
 	mainWindow.webContents.on('did-finish-load', function() {
-		mainWindow.webContents.insertCSS($cssInclude)
+
+		//initial load of window
+		fs.readFile(__dirname+ '/src/css/main.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
+
 		mainWindow.show()
+
 	})
 
 	mainWindow.webContents.on('did-navigate', function() {
-		mainWindow.webContents.insertCSS($cssInclude)
-	})
 
-	mainWindow.webContents.on('dom-ready', function(e) {
-		// search page override
-		mainWindow.webContents.insertCSS($cssSearch)
+		fs.readFile(__dirname+ '/src/css/main.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
+
+		fs.readFile(__dirname+ '/src/css/search.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
+
 	})
 
 	mainWindow.webContents.on('new-window', function(event, url){

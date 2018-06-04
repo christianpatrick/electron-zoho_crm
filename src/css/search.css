@@ -1,0 +1,12 @@
+.newsearchimg, #searchStr {
+	padding-left: 75px;
+}
+
+#searchdetailsform {
+	position: fixed;
+	width: 100%;
+}
+
+#gsearchDiv {
+	padding-top: 70px;
+}
