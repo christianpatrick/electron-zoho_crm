@@ -1,7 +1,7 @@
 {
   "name": "zoho_crm",
   "productName": "Zoho CRM",
-  "version": "1.1.2",
+  "version": "1.1.5",
   "description": "A simple Zoho CRM desktop app",
   "main": "main.js",
   "repository": "https://github.com/christianpatrick/electron-zoho_crm",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=zoho_crm-logo.icns --prune=true --out=builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=zoho_crm-logo.icns --asar=true --prune=true --out=builds"
   },
   "dependencies": {
     "electron-require": "^0.3.0"
