@@ -69,9 +69,16 @@ function createWindow () {
 
 	})
 
-	mainWindow.webContents.on('new-window', function(event, url){
-		event.preventDefault()
-		require('electron').shell.openExternal(url)
+	mainWindow.webContents.on('new-window', function(event, url) {
+
+		// event.preventDefault()
+
+		// check if sending an email
+		if(url.indexOf('send-mail') != -1) {}
+		else {
+			shell.openExternal(url)
+		}
+
 	});
 
 	// Emitted when the window is closed.
