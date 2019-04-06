@@ -15,6 +15,7 @@
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=zoho_crm-logo.icns --asar --prune=true --out=builds"
   },
   "dependencies": {
+    "electron-context-menu": "^0.11.0",
     "electron-require": "^0.3.0"
   }
 }
