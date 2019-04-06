@@ -1,5 +1,5 @@
-.newsearchimg, #searchStr {
-	padding-left: 75px;
+.newsearchimg, .gSearchBar .newgsearchouterdiv .srchForm {
+	padding-left: 75px !important;
 }
 
 #searchdetailsform {

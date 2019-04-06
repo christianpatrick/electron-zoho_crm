@@ -1,6 +1,6 @@
 /* tab group dropdown next to traffic lights */
 #showMenu {
-	margin-left: 65px;
+	margin-left: 75px;
 }
 
 /* top menu bar */
@@ -11,17 +11,14 @@
 	-webkit-app-region: drag;
 }
 
-
 .bodycontainer {
 	padding-top: 40px;
 }
-
 
 .newMenuTable {
 	display: block;
 	max-height: 45px;
 }
-
 
 #qIconDiv {
 	position: absolute;
