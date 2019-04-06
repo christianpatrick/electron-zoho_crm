@@ -30,10 +30,10 @@ function createWindow () {
 	// add context menu support
 	contextMenu();
 
-	// mainWindow.loadURL('https://crm.zoho.com/')
+	mainWindow.loadURL('https://crm.zoho.com/')
 
 	// For Development
-	mainWindow.loadURL('https://developer.zoho.com/crm/')
+	// mainWindow.loadURL('https://developer.zoho.com/crm/')
 
 	mainWindow.webContents.on('did-finish-load', function() {
 
