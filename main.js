@@ -1,4 +1,5 @@
 const {app, Menu, BrowserWindow, shell, clipboard} = require('electron')
+const contextMenu = require('electron-context-menu')
 
 const path = require('path')
 const url = require('url')
@@ -26,12 +27,23 @@ function createWindow () {
 		},
 	})
 
+	// add context menu support
+	contextMenu();
+
 	mainWindow.loadURL('https://crm.zoho.com/')
+
+	// For Development
+	// mainWindow.loadURL('https://developer.zoho.com/crm/')
 
 	mainWindow.webContents.on('did-finish-load', function() {
 
-		//initial load of window
 		fs.readFile(__dirname+ '/src/css/main.css', "utf-8", function(error, data) {
+			if (!error) {
+				mainWindow.webContents.insertCSS(data)
+			}
+		})
+
+		fs.readFile(__dirname+ '/src/css/search.css', "utf-8", function(error, data) {
 			if (!error) {
 				mainWindow.webContents.insertCSS(data)
 			}
@@ -57,9 +69,16 @@ function createWindow () {
 
 	})
 
-	mainWindow.webContents.on('new-window', function(event, url){
-		event.preventDefault()
-		require('electron').shell.openExternal(url)
+	mainWindow.webContents.on('new-window', function(event, url) {
+
+		// event.preventDefault()
+
+		// check if sending an email
+		if(url.indexOf('send-mail') != -1) {}
+		else {
+			shell.openExternal(url)
+		}
+
 	});
 
 	// Emitted when the window is closed.
